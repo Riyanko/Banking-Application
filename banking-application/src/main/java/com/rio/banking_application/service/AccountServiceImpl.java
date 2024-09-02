@@ -75,4 +75,14 @@ public class AccountServiceImpl implements AccountService{
 		return AccountMapper.mapToAccountDto(savedaccount);
 	}
 
+
+	@Override
+	public void deleteAccount(Long id) {
+		Account account=accrepo
+				.findById(id)
+				.orElseThrow(()->new RuntimeException("Account not Found"));
+		accrepo.deleteById(id);
+		
+	}
+
 }
