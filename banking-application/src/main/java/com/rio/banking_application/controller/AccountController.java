@@ -3,13 +3,16 @@ package com.rio.banking_application.controller;
 import java.lang.reflect.AccessFlag.Location;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -48,6 +51,15 @@ public class AccountController {
 				.buildAndExpand(createAccount.getId())
 				.toUri();
 		return ResponseEntity.created(location).body(createAccount);
+	}
+	
+	
+	@PutMapping("/api/accounts/{id}/deposit")
+	public ResponseEntity<AccountDto> depositAmount(@PathVariable Long id,@RequestBody Map<String, Double> request) {
+		
+		double amounts=request.get("amount");
+		AccountDto accountDto = accountService.deposit(id, amounts);
+		return new ResponseEntity<>(accountDto,HttpStatus.OK);
 	}
 	//@DeleteMapping("/api/accounts")
 	
