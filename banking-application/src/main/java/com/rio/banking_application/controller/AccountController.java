@@ -61,6 +61,13 @@ public class AccountController {
 		AccountDto accountDto = accountService.deposit(id, amounts);
 		return new ResponseEntity<>(accountDto,HttpStatus.OK);
 	}
+	
+	@PutMapping(("/api/accounts/{id}/withdraw"))
+	public ResponseEntity<AccountDto> withdrawAmount(@PathVariable Long id,@RequestBody Map<String, Double> request) {
+		double amounts=request.get("amount");
+		AccountDto withdraw = accountService.withdraw(id, amounts);
+		return ResponseEntity.status(HttpStatus.OK).body(withdraw);
+	}
 	//@DeleteMapping("/api/accounts")
 	
 }
