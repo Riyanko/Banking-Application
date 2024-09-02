@@ -35,4 +35,26 @@ public class AccountServiceImpl implements AccountService{
 		
 	}
 
+
+	@Override
+	public AccountDto getAccountById(Long id) {
+		Account account = accrepo
+				.findById(id)
+				.orElseThrow(()-> new RuntimeException("Account doesnt exists") );
+		
+		return AccountMapper.mapToAccountDto(account);
+	}
+
+
+	@Override
+	public AccountDto deposit(Long id, double amount) {
+		Account account = accrepo
+				.findById(id)
+				.orElseThrow(()-> new RuntimeException("Account doesnt exists") );
+		double sum=account.getBalance()+amount;
+		account.setBalance(sum);
+		Account savedAccount = accrepo.save(account);
+		return AccountMapper.mapToAccountDto(savedAccount);
+	}
+
 }
